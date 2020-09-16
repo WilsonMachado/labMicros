@@ -1,6 +1,28 @@
+/* Laboratorio de Microprocesadores y Ensamblador
+
+///////////////////////		Primer problema		/////////////////////// 
+
+Autores:
+
+- Katerine Lotero. 
+
+- Pablo A. Uribe.
+
+- Wilson D. Machado.
+
+Profesor: Fabio Rivadeneira.
+
+Ingeniería Electrónica.
+
+Universidad del Valle. */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+
+#include "funcs.h"
+#include "funcs.c"
+
 
 #define cols 2 // Como son parejas, la matriz donde se almacenarán tendrán 2 columnas y n filas (n parejas).
 
@@ -36,6 +58,17 @@ int main(int argc, char *argv[]) {
 		printf("%.2f ", pairs[i][0]);
 		printf("%.2f \n", pairs[i][1]); 					
 	}
+
+	printf("\n");
+
+	// Aquí se ha implementado el llamado a la función sum, la cual recibe un arreglo y su longitud
+	// para sumar los elementos que contiene dicho arreglo. A manera de prueba, solo se suman
+	// los elementos de la primera fila y luego los de la segunda fila. Sin embargo, esto podría hacerse en
+	// general con cualquier arreglo.
+
+	printf("La suma de los elementos de la primera fila es: %.2f \n", sum((pairs[0]), cols));
+
+	printf("La suma de los elementos de la segunda fila es: %.2f \n", sum(pairs[1], cols));
 
 	printf("\n");
 
