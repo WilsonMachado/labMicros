@@ -18,7 +18,7 @@ Universidad del Valle. */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
+
 
 #include "funcs.h"
 #include "funcs.c"
@@ -30,6 +30,8 @@ int main(int argc, char* argv[]) {
 	int cols = 2; // Como son parejas, la matriz donde se almacenarán tendrán 2 columnas y n filas (n parejas). TUve que volver a cols una variable para poder trabajar con punteros.
 
 	double** pairs; // Matrix de n x 2 para almacenar las parejas
+	
+	double pearsonR = 0; // Almacena el resultado del coeficiente de correlación de Pearson
 
 	printf("Introduzca el número de parejas que desea ingresar: ");
 	scanf("%d", &n);
@@ -63,20 +65,15 @@ int main(int argc, char* argv[]) {
 
 	printf("\n");
 
-	// Aquí se ha implementado el llamado a la función sum, la cual recibe un arreglo y su longitud
-	// para sumar los elementos que contiene dicho arreglo. A manera de prueba, solo se suman
-	// los elementos de la primera fila. Sin embargo, esto podría hacerse en general con cualquier arreglo.
+	// Aquí, se llama a la función perasonC la cual calcular el coeficiente de correlación de Pearson
+	// de la matriz de datos ingresada anteriormente pasando los parámetros como apuntadores de 
+	// memoria.
 
-	printf("La suma de los elementos de la primera fila (sin usar apuntadores) es: %.2f \n", sum(pairs[0], cols));
+	pearsonC(pairs, &pearsonR, &n);
+
+	printf("El coeficiente de correlación de Pearson es: %.4f", pearsonR);
+
 	
-	// Aquí se ha implementado el llamado a la función sumWithPointer, la cual recibe un arreglo y su longitud
-	// haciendo uso de punteros para sumar los elementos que contiene dicho arreglo. A manera de prueba, solo se suman
-	// los elementos de la primera fila. Sin embargo, esto podría hacerse en general con cualquier arreglo.
-
-	// NOTA: '&variable' significa que apunto a la dirección de memoria de la variable.
-
-	printf("La suma de los elementos de la segunda fila (usando apuntadores) es: %.2f \n", sumWithPointer(&pairs[0][0], &cols));
-
 	printf("\n");
 
 	system("pause");    
