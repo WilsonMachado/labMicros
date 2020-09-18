@@ -25,7 +25,7 @@ void sumWithPointer(double** arr, int* lenArr, int col, double* sumP){  // Sumar
     }  
 
 }
-
+// Otra prueba
 void squaredComponent(double** arr, int* lenArr, int col, double* sumPS){
 
     int i;
