@@ -14,7 +14,7 @@ double sum(double arr[], int lenArr){             // Sumar elementos de un arreg
     return result;
 
 }
-
+// Pablo estuvo aqui. 
 void sumWithPointer(double** arr, int* lenArr, int col, double* sumP){  // Sumar elementos de un arreglo con apuntadores  
 
     int i;
