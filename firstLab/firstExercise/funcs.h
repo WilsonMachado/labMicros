@@ -8,3 +8,5 @@ void sumWithPointer(double** arr, int* lenArr, int col, double* sumP);
 // valor de una variable por su dirección de memoria.
 
 void pearsonC(double** arr, double* pearsonR, int* lenArr);
+
+void writeFile(double** arr, double* pearsonR, int* lenArr, FILE* archivo);

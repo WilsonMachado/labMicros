@@ -1,0 +1,12 @@
+X Y
+14. 2. 
+16. 5. 
+27. 7. 
+42. 9. 
+39. 10. 
+50. 13. 
+83. 20. 
+
+El coeficiente de correlación de Pearson es: 0.9856
+
+Por Kate, Pablo y Wilson.

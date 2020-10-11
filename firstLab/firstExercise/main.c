@@ -33,6 +33,8 @@ int main(int argc, char* argv[]) {
 	
 	double pearsonR = 0; // Almacena el resultado del coeficiente de correlación de Pearson
 
+	FILE* archivo;		// Archivo donde se guardarán las parejas ingresadas y el coeficiente de Pearson 
+
 	printf("Introduzca el número de parejas que desea ingresar: ");
 	scanf("%d", &n);
 
@@ -40,14 +42,14 @@ int main(int argc, char* argv[]) {
 
 	// En la línea anterior me faltó un asterisco 'sizeof(double *)', ya que lo que se busca crear es un puntero de punteros.
 		
-	for(i = 0; i < n; i = i+1){ // Le añado la cantidad de columnas la matriz
+	for(i = 0; i < n; i ++){ // Le añado la cantidad de columnas la matriz
 
 		pairs[i] = 	(double*)malloc(cols*sizeof(double)); 					
 	}
 
 	printf("Introduzca las parejas, con cada valor separado por espacio (e.j: x y): \n");
 
-	for(i = 0; i < n; i = i+1){				// Introduzco los valores de la matriz
+	for(i = 0; i < n; i ++){				// Introduzco los valores de la matriz
 
 		scanf("%lf", &pairs[i][0]);		
 		scanf("%lf", &pairs[i][1]); 
@@ -57,7 +59,7 @@ int main(int argc, char* argv[]) {
 
 	printf("La matriz introducida es: \n"); 
 	
-	for(i = 0; i < n; i = i+1){				// Imprimo la matriz de las parejas para saber cómo quedaron
+	for(i = 0; i < n; i ++){				// Imprimo la matriz de las parejas para saber cómo quedaron
 		
 		printf("%.2f ", pairs[i][0]);
 		printf("%.2f \n", pairs[i][1]); 					
@@ -65,7 +67,7 @@ int main(int argc, char* argv[]) {
 
 	printf("\n");
 
-	// Aquí, se llama a la función perasonC la cual calcular el coeficiente de correlación de Pearson
+	// Aquí, se llama a la función perasonC la cual calcula el coeficiente de correlación de Pearson
 	// de la matriz de datos ingresada anteriormente pasando los parámetros como apuntadores de 
 	// memoria.
 
@@ -76,8 +78,11 @@ int main(int argc, char* argv[]) {
 	
 	printf("\n");
 
-	system("pause");    
-	
+	writeFile(pairs, &pearsonR, &n, archivo);
+
+
+	system("pause"); 	
+
 	return 0;
 }
  
