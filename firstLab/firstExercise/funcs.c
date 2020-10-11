@@ -35,7 +35,7 @@ void squaredComponent(double** arr, int* lenArr, int col, double* sumPS){
     }
 
 }
-
+// Pruebasssss
 void pearsonC(double** arr, double* pearsonR, int* lenArr){ // Calcula el coeficiente de Pearson
 
     int i, j;
