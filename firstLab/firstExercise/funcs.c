@@ -13,7 +13,7 @@ double sum(double arr[], int lenArr){             // Sumar elementos de un arreg
     return result;
 
 }
-
+// Pablo estuvo aqui. 
 void sumWithPointer(double** arr, int* lenArr, int col, double* sumP){  // Sumar elementos de un arreglo con apuntadores  
 
     int i;
@@ -23,8 +23,13 @@ void sumWithPointer(double** arr, int* lenArr, int col, double* sumP){  // Sumar
     }  
 
 }
+<<<<<<< HEAD
 
 void squaredComponent(double** arr, int* lenArr, int col, double* sumPS){ // Calcula la suma de los elementos de un arreglo al cuadrado
+=======
+// Otra prueba
+void squaredComponent(double** arr, int* lenArr, int col, double* sumPS){
+>>>>>>> 21a53c35a0ff5c99f87132a0c59e4a20fe5ea393
 
     int i;
 
@@ -33,7 +38,7 @@ void squaredComponent(double** arr, int* lenArr, int col, double* sumPS){ // Cal
     }
 
 }
-
+// Pruebasssss
 void pearsonC(double** arr, double* pearsonR, int* lenArr){ // Calcula el coeficiente de Pearson
 
 
