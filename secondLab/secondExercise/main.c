@@ -28,8 +28,8 @@
 #include "libs/mat_kbrd.h"  // Librería para el teclado matricial 4x4
 #include "libs/mat_kbrd.c"
 
-#include "funcs.h"
-#include "funcs.c"
+#include "funcs.h"          // Librería de funciones propias 
+#include "funcs.c"  
 
 int main(void){
 
@@ -58,33 +58,33 @@ int main(void){
 
     lcd_clrscr();                   // Limpia la pantalla LCD
     lcd_home();                     // Ubica el puntero en la posición inicial (0,0)
-
+    
     while(1)    { 
 
-    float fNumber = 0;         // Primer número de la operación
-    float sNumber = 0;         // Segundo número de la operación
-    float result = 0;          // Resultado de la operación
+    float fNumber = 0;              // Primer número de la operación
+    float sNumber = 0;              // Segundo número de la operación
+    float result = 0;               // Resultado de la operación
 
-    char operator = 0;         // Almacena el operador de la expresión a realizar
-    
-    accNumber(&fNumber, &operator);
+    char operator = 0;              // Almacena el operador de la expresión a realizar
+
+    accNumber(&fNumber, &operator); // Se introduce el primer número de la operación
 
     _delay_ms(10);
 
     if(operator == 0){                // Si se ingresó el primer operando, pero no se seleccionó operador
-        while(operator != '+' || operator != '-' || operator != '*' || operator != '/'){
-            operator = kbrd_read();
-            _delay_ms(10);
-            if(operator == '+' || operator == '-' || operator == '*' || operator == '/'){
+        while(operator != '+' || operator != '-' || operator != '*' || operator != '/'){    // Hasta que no se seleccione un operador 
+            operator = kbrd_read();   // Lee el teclado hasta que se introduzca uno válido
+            _delay_ms(10);            // Espera antirebote
+            if(operator == '+' || operator == '-' || operator == '*' || operator == '/'){   // Cuando se seleccione un operador válido, sale del bucle
                 break;                
             }
         }
-        lcd_putc(operator);
+        lcd_putc(operator);           // Imprime el operador selecionado en pantalla
         _delay_ms(10);
     }                    
-    accNumber(&sNumber, &operator);   // De lo controario, si se seleccionó operador
+    accNumber(&sNumber, &operator);   // De lo controario, si se seleccionó operador, se procede a ingresar el segundo número de la operación
             
-     lcd_putc('=');              // Imprime '='   
+     lcd_putc('=');                   // Imprime '='  
 
     switch (operator) { // Para determinar qué operación realizar con los dos datos ingresados
         case '+':
@@ -104,19 +104,19 @@ int main(void){
         break;
     }      
 
-    int entero = result;                    // Truca la parte entera
-    int decimal = (result - entero) * 100;  // Y la parte decimal (2 decimales)
+    int entero = result;                     // Trunca la parte entera
+    int decimal = (result - entero) * 1000;  // Y la parte decimal (3 decimales). Se hizo con 3 decimales para mitigar el error que tenía la primera versión de este programa 
     
-    lcd_gotoxy(0, 1);                       // Se posiciona en la segunda fila, primera columna
-    
-    numToLcd(entero);                       // Imprime la parte entera
-    lcd_putc('.');                          // Imprime el punto decimal
-    numToLcd(decimal);                      // Imprime la parte decimal
+    lcd_gotoxy(0, 1);                        // Se posiciona en la segunda fila, primera columna
+
+    numToLcd(entero);                        // Imprime la parte entera
+    lcd_putc('.');                           // Imprime el punto decimal
+    numToLcd(decimal);                       // Imprime la parte decimal
   
     _delay_ms(3000);                        // Mantiene los datos 3 segundos en pantalla 
     
     lcd_clrscr();                           // Limpia la pantalla LCD
-    lcd_home();                             // Ubica el puntero en la posición inicial (0,0)    
+    lcd_home();                             // Ubica el puntero en la posición inicial (0,0)  
             
     }                  
 

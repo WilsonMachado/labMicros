@@ -1,24 +1,26 @@
 void numToLcd(int number){  // Función para imprimir un número en la pantalla LCD
 
-    char result[10];
-    int cont = 0;
+    int result[10];         // Arreglo que almacena el número descompuesto en unidades, decenas, centenas...
+    int cont = 0;           // Contador para determinar cuántos digitos se han ingresado
     int i;    
     
-    if  (number == 0){
+    if  (number == 0){      // Si el número a imprimir es igual de 0
         
-        lcd_putc('0');
+        lcd_putc('0');      // Simplemente imprime un cero en pantalla
         
-        } else{
+        } else{             // De lo contrario
 
-            while(number != 0){
-                result[cont] = (number % 10) + 48;
-                number = (number - (number % 10)) / 10;
-                if (number != 0) cont++;                
+            while(number != 0){                             // Mientras el número a imprimir sea diferente de cero
+                result[cont] = (number % 10) + 48;          // Obtiene el módulo del número divido 10 para obtener su década más la derecha y se le suma 48 para convertirlo a caracter ASCII
+                number = (number - (number % 10)) / 10;     // Le resta la década actual al número a imprimir y lo divide entre 10 para obtener su siquiente década
+                if (number != 0) cont++;                    // Si luego de hacer esa resta el número no es cero, incrementa el contador de dígitos para saber a qué década corresponde el número ingresado previamente               
             }
 
-            // Impresión
+            // Impresión: si se hace la prueba de escritorio del algoritmo anterior, se notara que
+            //            el número ha quedado invertido (sus décadas más significativas ahora son las
+            //            menos signiticativas y viceversa). Por lo tanto, debe ser impreso a la inversa.
 
-            for(i = 0; i <= cont; i++){
+            for(i = 0; i <= cont; i++){         
                 lcd_putc(result[cont - i]);        
             }
 
@@ -29,11 +31,12 @@ void numToLcd(int number){  // Función para imprimir un número en la pantalla 
 void accNumber(float* number, char* operator){      // Función para ingresar los números de la operación
 
     
-    int cont = 0;   
+    int cont = 0;                       // Contador de cantidad de dígitos ingresados
+    char caracter = 0;                  // Variable que almacenará el caracter presionado   
 
     while (cont < 3){                   // Máximo se pueden ingresar 3 dígitos
 
-        char caracter = 0;              // Variable que almacenará el caracter presionado
+        caracter = 0;                   // Resetea la variable caracter
         caracter = kbrd_read();         // Lectura del teclado matricial
             
         if(caracter != 0){              // Siempre y cuando se oprima un caracter
@@ -49,7 +52,7 @@ void accNumber(float* number, char* operator){      // Función para ingresar lo
 
                return;                  // Termina el ingreso de la parte entera
 
-                }else if(caracter == '+' || caracter == '-' || caracter == '*' || caracter == '/'){
+                }else if(caracter == '+' || caracter == '-' || caracter == '*' || caracter == '/'){ // Si se interrumpe el ingreso del número con un operador
                     
                     if((*operator) == 0){
                         lcd_putc(caracter);      // Imprime el operador en pantalla
@@ -57,18 +60,18 @@ void accNumber(float* number, char* operator){      // Función para ingresar lo
                         _delay_ms(10);           // Espera antirebote
                         return;
                     }else{
-                        _delay_ms(10);
+                        _delay_ms(10);          // De lo contrario, no hace nada
                     }
   
                     
                
-                } else if(caracter == '='){
+                } else if(caracter == '='){     // Si se ingresa el operador de resultado 
                     
-                    if((*operator != 0)){
-                        _delay_ms(10);
-                        return;
-                    }else{
-                        _delay_ms(10);
+                    if((*operator != 0)){       // Si ya había un operador válido previamente definido
+                        _delay_ms(10);          // Espera antirebote
+                        return;                 // Regresa para hacer la operación solicitada
+                    }else{                      // Sino, no hace nada. Se necesita que haya un operador válido previamente definido para dar como resultado una operación
+                        _delay_ms(10);          // Espera antirebote
                     }
                     
                 }else{                                          // Si se ingresa un número, se acumula
@@ -89,18 +92,39 @@ void accNumber(float* number, char* operator){      // Función para ingresar lo
         }
                  
     }
+
+    while(caracter != '+' || caracter != '-' || caracter != '*' || caracter != '/' || caracter != '.'){ // Hasta que no se ingrese un operador válido o un punto decimal
+        
+        caracter = kbrd_read();     // Lee el teclado en espera de un operador válido o el punto decimal
+        _delay_ms(10);              // 
+        
+        if((caracter == '+' || caracter == '-' || caracter == '*' || caracter == '/') && ((*operator) != 0)){ // Si se ingresa un operador válido y no se había seleccionado antes
+            (*operator) = caracter; // Se almacena el operador
+            _delay_ms(10);          // Tiempo antirebote
+            
+            return;                 // Termina el ingreso del número
+        
+        }else if(caracter == '.'){      // Si se ingresa el punto decimal
+                lcd_putc(caracter);     // Imprime el punto decimal en pantalla
+                _delay_ms(10);          // Tiempo de espera para evitar rebotes.                
+                accDecimal(number, operator);     // Llama a la función que permite ingresar la parte decimal del
+                                                  // número de la operación
+                return;                  // Termina el ingreso del número
+        }
+    }
     
 }
 
 void accDecimal(float* number, char* operator){         // Función para ingresar los decimales de los números de la operación
 
     int i;
-    int cont = 0;
+    int cont = 0;                       // Variable para llevar la cuenta de los decimales ingresador
     float aux = 0;                      // Variable auxiliar para ordenar los decimales 
+    char caracter = 0;              // Variable que almacenará el caracter presionado
 
     while (cont < 2){                   // Máximo se pueden ingresar 2 decimales
 
-        char caracter = 0;              // Variable que almacenará el caracter presionado
+        caracter = 0;                   // Resetea la variable que almacena el caracter presionado
         caracter = kbrd_read();         // Lectura del teclado matricial
             
         if(caracter != 0){              // Siempre y cuando se oprima un caracter
