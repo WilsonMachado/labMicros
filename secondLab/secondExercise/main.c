@@ -21,6 +21,7 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <stdlib.h>
 
 #include "libs/lcd.h"       // Librería para la pantalla LCD 2x16
 #include "libs/lcd.c"
@@ -32,6 +33,12 @@
 #include "funcs.c"  
 
 int main(void){
+
+    DDRB = 0xFF;
+    DDRC = 0xFF;
+
+    PORTB = 0x00;
+    PORTC = 0x00;    
 
     lcd_init(LCD_DISP_ON);          // Inicializa la pantalla LCD. Está conectada al puerto B
 
@@ -58,7 +65,7 @@ int main(void){
 
     lcd_clrscr();                   // Limpia la pantalla LCD
     lcd_home();                     // Ubica el puntero en la posición inicial (0,0)
-    
+
     while(1)    { 
 
     float fNumber = 0;              // Primer número de la operación
@@ -68,7 +75,7 @@ int main(void){
     char operator = 0;              // Almacena el operador de la expresión a realizar
 
     accNumber(&fNumber, &operator); // Se introduce el primer número de la operación
-
+        
     _delay_ms(10);
 
     if(operator == 0){                // Si se ingresó el primer operando, pero no se seleccionó operador
@@ -104,21 +111,16 @@ int main(void){
         break;
     }      
 
-    int entero = result;                     // Trunca la parte entera
-    int decimal = (result - entero) * 1000;  // Y la parte decimal (3 decimales). Se hizo con 3 decimales para mitigar el error que tenía la primera versión de este programa 
-    
     lcd_gotoxy(0, 1);                        // Se posiciona en la segunda fila, primera columna
 
-    numToLcd(entero);                        // Imprime la parte entera
-    lcd_putc('.');                           // Imprime el punto decimal
-    numToLcd(decimal);                       // Imprime la parte decimal
-  
+    numToLcd(&result);                        // Imprime la parte entera
+      
     _delay_ms(3000);                        // Mantiene los datos 3 segundos en pantalla 
     
     lcd_clrscr();                           // Limpia la pantalla LCD
     lcd_home();                             // Ubica el puntero en la posición inicial (0,0)  
             
-    }                  
+    }                 
 
     return 0;
 }

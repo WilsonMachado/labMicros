@@ -1,4 +1,4 @@
-void numToLcd(int number);
+void numToLcd(float* number);
 
 void accNumber(float* number, char* operator);
 

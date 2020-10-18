@@ -1,31 +1,9 @@
-void numToLcd(int number){  // Función para imprimir un número en la pantalla LCD
+void numToLcd(float* number){  // Función para imprimir un número en la pantalla LCD
 
-    int result[10];         // Arreglo que almacena el número descompuesto en unidades, decenas, centenas...
-    int cont = 0;           // Contador para determinar cuántos digitos se han ingresado
-    int i;    
+    char result[10];         // Arreglo que almacena el número descompuesto en unidades, decenas, centenas...
     
-    if  (number == 0){      // Si el número a imprimir es igual de 0
-        
-        lcd_putc('0');      // Simplemente imprime un cero en pantalla
-        
-        } else{             // De lo contrario
-
-            while(number != 0){                             // Mientras el número a imprimir sea diferente de cero
-                result[cont] = (number % 10) + 48;          // Obtiene el módulo del número divido 10 para obtener su década más la derecha y se le suma 48 para convertirlo a caracter ASCII
-                number = (number - (number % 10)) / 10;     // Le resta la década actual al número a imprimir y lo divide entre 10 para obtener su siquiente década
-                if (number != 0) cont++;                    // Si luego de hacer esa resta el número no es cero, incrementa el contador de dígitos para saber a qué década corresponde el número ingresado previamente               
-            }
-
-            // Impresión: si se hace la prueba de escritorio del algoritmo anterior, se notara que
-            //            el número ha quedado invertido (sus décadas más significativas ahora son las
-            //            menos signiticativas y viceversa). Por lo tanto, debe ser impreso a la inversa.
-
-            for(i = 0; i <= cont; i++){         
-                lcd_putc(result[cont - i]);        
-            }
-
-    } 
-
+    dtostrf(*number, 3, 2, result); 
+    lcd_puts(result);  
 }
 
 void accNumber(float* number, char* operator){      // Función para ingresar los números de la operación
@@ -55,10 +33,12 @@ void accNumber(float* number, char* operator){      // Función para ingresar lo
                 }else if(caracter == '+' || caracter == '-' || caracter == '*' || caracter == '/'){ // Si se interrumpe el ingreso del número con un operador
                     
                     if((*operator) == 0){
+                        
                         lcd_putc(caracter);      // Imprime el operador en pantalla
                         (*operator) = caracter;  // Almacena el operador para determinar qué debe hacer
                         _delay_ms(10);           // Espera antirebote
                         return;
+                    
                     }else{
                         _delay_ms(10);          // De lo contrario, no hace nada
                     }
@@ -93,18 +73,27 @@ void accNumber(float* number, char* operator){      // Función para ingresar lo
                  
     }
 
+    //caracter = 0;
+
     while(caracter != '+' || caracter != '-' || caracter != '*' || caracter != '/' || caracter != '.'){ // Hasta que no se ingrese un operador válido o un punto decimal
+        
         
         caracter = kbrd_read();     // Lee el teclado en espera de un operador válido o el punto decimal
         _delay_ms(10);              // 
         
-        if((caracter == '+' || caracter == '-' || caracter == '*' || caracter == '/') && ((*operator) != 0)){ // Si se ingresa un operador válido y no se había seleccionado antes
-            (*operator) = caracter; // Se almacena el operador
-            _delay_ms(10);          // Tiempo antirebote
+        if( (caracter == '+' || caracter == '-' || caracter == '*' || caracter == '/') ){ // Si se ingresa un operador válido y no se había seleccionado antes
             
-            return;                 // Termina el ingreso del número
-        
+            if ((*operator) == 0){
+                (*operator) = caracter; // Se almacena el operador
+                lcd_putc(caracter);
+                _delay_ms(10);          // Tiempo antirebote
+            
+                return;                 // Termina el ingreso del número
+            }else{
+                _delay_ms(10);          // De lo contrario, solo espera
+            }
         }else if(caracter == '.'){      // Si se ingresa el punto decimal
+                
                 lcd_putc(caracter);     // Imprime el punto decimal en pantalla
                 _delay_ms(10);          // Tiempo de espera para evitar rebotes.                
                 accDecimal(number, operator);     // Llama a la función que permite ingresar la parte decimal del
