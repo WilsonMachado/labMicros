@@ -89,11 +89,13 @@ int main(void){
         lcd_putc(operator);           // Imprime el operador selecionado en pantalla
         _delay_ms(10);
     }                    
+    
     accNumber(&sNumber, &operator);   // De lo controario, si se seleccionó operador, se procede a ingresar el segundo número de la operación
             
      lcd_putc('=');                   // Imprime '='  
 
     switch (operator) { // Para determinar qué operación realizar con los dos datos ingresados
+        
         case '+':
             result = fNumber + sNumber; 
         break;

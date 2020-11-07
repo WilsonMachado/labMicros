@@ -74,8 +74,8 @@ void accNumber(float* number, char* operator){      // Función para ingresar lo
     }
 
     //caracter = 0;
-
-    while(caracter != '+' || caracter != '-' || caracter != '*' || caracter != '/' || caracter != '.'){ // Hasta que no se ingrese un operador válido o un punto decimal
+    
+    while(caracter != '+' || caracter != '-' || caracter != '*' || caracter != '/' || caracter != '.' || caracter != '='){ // Hasta que no se ingrese un operador válido o un punto decimal
         
         
         caracter = kbrd_read();     // Lee el teclado en espera de un operador válido o el punto decimal
@@ -99,6 +99,11 @@ void accNumber(float* number, char* operator){      // Función para ingresar lo
                 accDecimal(number, operator);     // Llama a la función que permite ingresar la parte decimal del
                                                   // número de la operación
                 return;                  // Termina el ingreso del número
+
+        }else if((caracter == '=') && ((*operator) != 0)){ // Si solo se desean ingresar dos operandos de 3 cifras sin decimales
+
+            return;
+
         }
     }
     
